@@ -1,6 +1,6 @@
 package com.example;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.sql.Connection;
@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test;
 import com.example.model.User;
 import com.example.model.daos.IUserDAO;
 import com.example.model.daos.JDBCUserDAO;
-import com.example.repositories.UserRepository;
+import com.example.repositories.UserRepositoryImpl;
+import com.example.results.Result;
 
 
 public class UserRepositoryTest {
@@ -31,9 +32,11 @@ public class UserRepositoryTest {
     @Test
     public void consegueCriarUsuario(){
         IUserDAO userDao = new JDBCUserDAO(con);
-        UserRepository userRepository = new UserRepository(userDao);
+        UserRepositoryImpl userRepository = new UserRepositoryImpl(userDao);
 
-        User criado = userRepository.add("Zé", "zé@teste.com");
+        Result resultado = userRepository.add("Zé", "zé@teste.com");
+
+        User criado = (User)resultado.asSucess().getObj();
 
         assertNotEquals(-1, criado.getId());
 

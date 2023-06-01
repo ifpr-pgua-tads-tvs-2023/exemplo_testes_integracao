@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import com.example.model.User;
 import com.example.model.daos.IUserDAO;
 import com.example.model.daos.JDBCUserDAO;
+import com.example.results.Result;
 
 
 
@@ -30,13 +31,15 @@ public class JDBCUserDAOTest{
     }
 
     @Test
-    public void testInsereUsuario() throws Exception{
+    public void testInsereUsuario(){
 
         User user = new User(-1, "Zé", "zé@teste.com");
 
         IUserDAO dao = new JDBCUserDAO(con);
 
-        User atualizado = dao.add(user);
+        Result resultado = dao.add(user);
+
+        User atualizado = (User)resultado.asSucess().getObj();
 
         assertNotEquals(-1, atualizado.getId());
 
@@ -51,8 +54,10 @@ public class JDBCUserDAOTest{
 
         dao.add(user);
 
-        User busca = dao.getByEmail("ze@teste.com");
+        Result resultado = dao.getByEmail("ze@teste.com");
         
+        User busca = (User) resultado.asSucess().getObj();
+
         assertNotNull(busca);
         assertEquals("Zé", busca.getNome());
 

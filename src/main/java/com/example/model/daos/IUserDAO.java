@@ -1,8 +1,9 @@
 package com.example.model.daos;
 
 import com.example.model.User;
+import com.example.results.Result;
 
 public interface IUserDAO {
-    User add(User user) throws Exception;
-    User getByEmail(String email) throws Exception;
+    Result add(User user);
+    Result getByEmail(String email);
 }
